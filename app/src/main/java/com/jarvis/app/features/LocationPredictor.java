@@ -2,7 +2,8 @@ package com.jarvis.app.features;
 
 import android.content.Context;
 import android.location.Location;
-import java.util.Random;
+// In a real app, you would use a location provider like FusedLocationProviderClient
+// from com.google.android.gms.location.FusedLocationProviderClient;
 
 public class LocationPredictor {
 
@@ -12,39 +13,20 @@ public class LocationPredictor {
         this.context = context;
     }
 
-    /**
-     * Simulates predicting the user's next location. A real implementation would
-     * use historical location data and machine learning.
-     *
-     * @param currentLocation The user's current location (can be null).
-     * @return A string with a location prediction.
-     */
-    public String predictNextLocation(Location currentLocation) {
-        // This is a very basic simulation.
-        // A real implementation would analyze patterns in location data.
-        int hour = java.time.LocalTime.now().getHour();
-        if (hour >= 7 && hour <= 9) {
-            return "Based on the time, you might be heading to work.";
-        } else if (hour >= 18 && hour <= 20) {
-            return "It's getting late, are you heading home?";
-        } else {
-            return "I can't predict your next location yet. The more you use Jarvis, the smarter I'll get!";
-        }
-    }
+    public String getSuggestion(Location location) {
+        // This is a simulated implementation.
+        // A real app would get the user's current location and use it to
+        // provide relevant suggestions (e.g., "Traffic to work is light",
+        // "There's a coffee shop nearby").
 
-    /**
-     * Simulates providing a suggestion based on the user's current location.
-     * @param currentLocation The user's current location.
-     * @return A contextual suggestion.
-     */
-    public String getSuggestionForCurrentLocation(Location currentLocation) {
-        // A real implementation would use geofencing or a places API to identify nearby points of interest.
-        String[] suggestions = {
-                "I see you're near a coffee shop. Would you like to see the menu?",
-                "There's a park nearby. A great place for a walk!",
-                "The traffic on your usual route home looks clear."
-        };
-        Random random = new Random();
-        return suggestions[random.nextInt(suggestions.length)];
+        if (location != null) {
+            // Example of how you might use location data
+            double lat = location.getLatitude();
+            double lon = location.getLongitude();
+            // In a real app, you'd query an API with these coordinates.
+            return "Based on your location, you might be interested in the nearby tech museum.";
+        } else {
+            return "I can't get your location right now, but I recommend checking out the latest tech news.";
+        }
     }
 }

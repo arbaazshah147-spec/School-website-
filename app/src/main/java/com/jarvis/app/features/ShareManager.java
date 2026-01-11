@@ -3,7 +3,6 @@ package com.jarvis.app.features;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Toast;
 
 public class ShareManager {
 
@@ -14,27 +13,17 @@ public class ShareManager {
     }
 
     public void shareText(String text) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
-        sendIntent.setType("text/plain");
-        Intent shareIntent = Intent.createChooser(sendIntent, null);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(shareIntent);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        context.startActivity(Intent.createChooser(intent, "Share Text"));
     }
 
-    public void shareMedia(Uri mediaUri, String mimeType) {
-        if (mediaUri == null) {
-            Toast.makeText(context, "Media file not found.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_STREAM, mediaUri);
-        sendIntent.setType(mimeType);
-        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Intent shareIntent = Intent.createChooser(sendIntent, null);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(shareIntent);
+    public void shareMedia(Uri uri, String mimeType) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(mimeType);
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(Intent.createChooser(intent, "Share Media"));
     }
 }

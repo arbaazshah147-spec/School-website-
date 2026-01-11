@@ -1,41 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Jarvis</string>
-
-    <!-- Home Activity -->
-    <string name="home_input_hint">Type or speak your command...</string>
-
-    <!-- Dashboard Activity -->
+    <string name="welcome_message">Welcome to Jarvis</string>
     <string name="dashboard_title">Dashboard</string>
-    <string name="dashboard_tasks">Task Manager</string>
-    <string name="dashboard_notes">Notes</string>
-    <string name="dashboard_wardrobe">Wardrobe</string>
-    <string name="dashboard_fitness">Fitness Coach</string>
-
-    <!-- Settings Activity -->
     <string name="settings_title">Settings</string>
-    <string name="settings_user_identity">User Identity</string>
-    <string name="settings_username">Username</string>
-    <string name="settings_ai_name">AI Name</string>
-    <string name="settings_wake_word">Wake Word</string>
-    <string name="settings_welcome_response">Custom Welcome Response</string>
-    <string name="settings_api_management">API Management</string>
-    <string name="settings_gemini_api_key">Gemini API Key</string>
-    <string name="settings_chatgpt_api_key">ChatGPT API Key</string>
-    <string name="settings_grok_api_key">Grok API Key</string>
-    <string name="settings_custom_command_builder">Custom Command Builder</string>
-    <string name="settings_command_name">Command Name</string>
-    <string name="settings_command_trigger">Command Trigger Phrase(s)</string>
-    <string name="settings_save_command">Save Command</string>
-    <string name="settings_save_all">Save All Settings</string>
-
-    <!-- Overlay -->
-    <string name="overlay_default_text">Jarvis is listening...</string>
-
-    <string-array name="action_types">
-        <item>Open App</item>
-        <item>Send Message</item>
-        <item>Play / Pause / Next / Previous</item>
-        <item>Custom Text Response</item>
-    </string-array>
-
+    <string name="save_button">Save</string>
 </resources>

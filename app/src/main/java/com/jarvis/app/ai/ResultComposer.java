@@ -2,16 +2,38 @@ package com.jarvis.app.ai;
 
 public class ResultComposer {
 
-    /**
-     * Composes the final result by prepending the AI source.
-     * @param source The AI that generated the response (e.g., "Gemini", "ChatGPT").
-     * @param response The response from the AI.
-     * @return A composed string.
-     */
-    public String compose(String source, String response) {
-        // A more complex implementation could involve merging results from multiple AIs,
-        // or formatting the output in a specific way.
-        // For now, we'll just prepend the source for clarity.
-        return "[" + source + "]: " + response;
+    public String composeResult(String geminiResult, String chatgptResult, String grokResult) {
+        StringBuilder finalResult = new StringBuilder();
+
+        if (geminiResult != null && !geminiResult.isEmpty()) {
+            finalResult.append("Planning: ").append(geminiResult).append("\n\n");
+        }
+        if (chatgptResult != null && !chatgptResult.isEmpty()) {
+            finalResult.append("Personalization: ").append(chatgptResult).append("\n\n");
+        }
+        if (grokResult != null && !grokResult.isEmpty()) {
+            finalResult.append("Analysis: ").append(grokResult).append("\n");
+        }
+
+        if(finalResult.length() == 0){
+            return "I was unable to process that request.";
+        }
+
+        return finalResult.toString().trim();
     }
+
+     public String parseGeminResponse(String responseBody){
+         // Basic parsing, would need to be more robust for production
+         return responseBody;
+     }
+
+     public String parseChatGPTResponse(String responseBody){
+         // Basic parsing
+         return responseBody;
+     }
+
+     public String parseGrokResponse(String responseBody){
+        // Basic parsing
+        return responseBody;
+     }
 }

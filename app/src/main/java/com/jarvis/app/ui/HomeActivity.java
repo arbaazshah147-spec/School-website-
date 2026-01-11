@@ -1,169 +1,71 @@
 package com.jarvis.app.ui;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jarvis.app.R;
-import com.jarvis.app.core.CommandRouter;
 import com.jarvis.app.core.JarvisBrain;
-import com.jarvis.app.core.SpeechEngine;
-import com.jarvis.app.core.WakeWordEngine;
 import com.jarvis.app.utils.Constants;
 import com.jarvis.app.utils.PermissionUtil;
 
-import java.util.Locale;
-
-public class HomeActivity extends AppCompatActivity implements
-        JarvisBrain.BrainCallback,
-        SpeechEngine.SpeechEngineListener,
-        WakeWordEngine.WakeWordListener,
-        CommandRouter.CommandRouterListener {
+public class HomeActivity extends AppCompatActivity implements JarvisBrain.BrainCallback {
 
     private JarvisBrain jarvisBrain;
-    private SpeechEngine speechEngine;
-    private WakeWordEngine wakeWordEngine;
-    private TextView welcomeMessage, statusText;
-    private EditText inputText;
-    private ImageView micRing, settingsButton;
+    private TextView welcomeMessage;
+    private ImageView micButton;
 
-    private ActivityResultLauncher<Intent> settingsLauncher;
-    private boolean isListeningForCommand = false;
+    private final String[] permissions = {
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.CAMERA
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if (!PermissionUtil.allPermissionsGranted(this)) {
-            PermissionUtil.requestMissingPermissions(this);
-        }
+        welcomeMessage = findViewById(R.id.welcome_message);
+        micButton = findViewById(R.id.mic_button);
+        Button dashboardButton = findViewById(R.id.dashboard_button);
 
         jarvisBrain = new JarvisBrain(this, this);
-        speechEngine = new SpeechEngine(this, this);
 
-        welcomeMessage = findViewById(R.id.welcome_message);
-        inputText = findViewById(R.id.input_text);
-        micRing = findViewById(R.id.mic_ring);
-        settingsButton = findViewById(R.id.settings_button);
-        // statusText will be part of the welcome_message for now
-
-        micRing.setOnClickListener(v -> {
-            if (isListeningForCommand) {
-                speechEngine.stopListening();
-                startWakeWordDetection();
+        micButton.setOnClickListener(v -> {
+            if (PermissionUtil.checkPermissions(this, permissions)) {
+                jarvisBrain.startListening();
             } else {
-                startCommandListening();
+                PermissionUtil.requestPermissions(this, permissions, Constants.REQUEST_CODE_PERMISSIONS);
             }
         });
-        settingsButton.setOnClickListener(v -> openSettings());
 
-        loadSettingsAndStart();
+        dashboardButton.setOnClickListener(v ->
+            startActivity(new Intent(HomeActivity.this, DashboardActivity.class)));
 
-        settingsLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    loadSettingsAndStart();
-                    jarvisBrain = new JarvisBrain(this, this); // Re-initialize to load new commands
-                }
-        );
+        // Personalize welcome message
+        // In a real app, this would be loaded from MemoryStore
+        welcomeMessage.setText("Welcome, User!");
     }
-
-    private void loadSettingsAndStart() {
-        SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
-        String username = prefs.getString(Constants.KEY_USERNAME, "User");
-        String aiName = prefs.getString(Constants.KEY_AI_NAME, "Jarvis");
-        String wakeWord = prefs.getString(Constants.KEY_WAKE_WORD, "hey jarvis");
-        String welcomeFormat = prefs.getString(Constants.KEY_WELCOME_RESPONSE, "Hi {username}, I’m {ai_name}. Ready when you are.");
-
-        String finalWelcome = welcomeFormat
-                .replace("{username}", username)
-                .replace("{ai_name}", aiName);
-        welcomeMessage.setText(finalWelcome);
-
-        if (wakeWordEngine != null) {
-            wakeWordEngine.destroy();
-        }
-        wakeWordEngine = new WakeWordEngine(this, wakeWord, this);
-        startWakeWordDetection();
-    }
-
-    private void startWakeWordDetection() {
-        isListeningForCommand = false;
-        runOnUiThread(() -> welcomeMessage.setText("Listening for wake word..."));
-        wakeWordEngine.startListening();
-    }
-
-    private void startCommandListening() {
-        isListeningForCommand = true;
-        wakeWordEngine.stopListening();
-        runOnUiThread(() -> welcomeMessage.setText("Listening for command..."));
-        speechEngine.startListening();
-    }
-
-    private void openSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        settingsLauncher.launch(intent);
-    }
-
-    @Override
-    public void onWakeWordDetected() {
-        startCommandListening();
-    }
-
-    @Override
-    public void onResponse(String response) {
-        runOnUiThread(() -> {
-            inputText.setText(response);
-            speechEngine.speak(response, Locale.US);
-            startWakeWordDetection(); // Go back to wake word listening after response
-        });
-    }
-
-    @Override
-    public void onCustomResponse(String response) {
-        onResponse(response);
-    }
-
-    @Override
-    public void onError(String error) {
-        runOnUiThread(() -> Toast.makeText(HomeActivity.this, error, Toast.LENGTH_LONG).show());
-        startWakeWordDetection(); // Go back to wake word listening on error
-    }
-
-    @Override
-    public void onSpeechResult(String result) {
-        inputText.setText(result);
-        jarvisBrain.processInput(result);
-    }
-
-    @Override
-    public void onSpeechError(String error) {
-        runOnUiThread(() -> Toast.makeText(HomeActivity.this, error, Toast.LENGTH_SHORT).show());
-        startWakeWordDetection();
-    }
-
-    @Override
-    public void onTtsInitialized() {}
-
-    @Override
-    public void onTtsSpoken() {}
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionUtil.REQUEST_CODE_PERMISSIONS) {
-            if (!PermissionUtil.allPermissionsGranted(this)) {
-                Toast.makeText(this, "Permissions not granted. Some features may not work.", Toast.LENGTH_SHORT).show();
+        if (requestCode == Constants.REQUEST_CODE_PERMISSIONS) {
+            if (PermissionUtil.checkPermissions(this, this.permissions)) {
+                jarvisBrain.startListening();
+            } else {
+                Toast.makeText(this, "Permissions not granted.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -171,20 +73,39 @@ public class HomeActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (speechEngine != null) speechEngine.destroy();
-        if (wakeWordEngine != null) wakeWordEngine.destroy();
+        jarvisBrain.shutdown();
+    }
+
+    // BrainCallback Methods
+    @Override
+    public void onResponse(String response) {
+        // For now, just show a toast. In a real app, this would update the UI.
+        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        startWakeWordDetection();
+    public void onSpeechInput(String text) {
+        // This is the final recognized text. Update UI if needed.
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (wakeWordEngine != null) wakeWordEngine.stopListening();
-        if (speechEngine != null) speechEngine.stopListening();
+    public void onPartialSpeech(String partialText) {
+        // Update UI with partial text to show recognition is in progress
+        welcomeMessage.setText(partialText);
+    }
+
+    @Override
+    public void onError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onListening(boolean isListening) {
+        // Animate mic button based on listening state
+        if (isListening) {
+            micButton.setAlpha(0.5f); // Simple animation
+        } else {
+            micButton.setAlpha(1.0f);
+        }
     }
 }

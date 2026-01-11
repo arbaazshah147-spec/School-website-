@@ -1,49 +1,69 @@
 package com.jarvis.app.features;
 
-import android.content.Context;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class WardrobeManager {
 
-    private final Context context;
-    private final Map<String, List<String>> outfits;
+    private final List<Outfit> outfits;
 
-    public WardrobeManager(Context context) {
-        this.context = context;
-        this.outfits = new HashMap<>();
-        // In a real app, load outfits from a database or a file.
-        // For now, we'll use a sample set.
-        initializeSampleOutfits();
+    public WardrobeManager() {
+        this.outfits = new ArrayList<>();
+        // Predefined outfits for demonstration
+        outfits.add(new Outfit("Casual", "T-Shirt and Jeans", "sneakers"));
+        outfits.add(new Outfit("Formal", "Suit and Tie", "dress_shoes"));
+        outfits.add(new Outfit("Sporty", "Tracksuit", "running_shoes"));
+        outfits.add(new Outfit("Business Casual", "Polo Shirt and Chinos", "loafers"));
+        outfits.add(new Outfit("Winter Wear", "Jacket and Beanie", "boots"));
+        outfits.add(new Outfit("Summer Vibe", "Shorts and Vest", "sandals"));
     }
 
-    private void initializeSampleOutfits() {
-        List<String> casual = new ArrayList<>();
-        casual.add("T-Shirt and Jeans");
-        casual.add("Polo and Chinos");
-        casual.add("Hoodie and Joggers");
-        outfits.put("Casual", casual);
+    public List<Outfit> getDailySuggestions() {
+        List<Outfit> suggestions = new ArrayList<>();
 
-        List<String> formal = new ArrayList<>();
-        formal.add("Suit and Tie");
-        formal.add("Blazer and Slacks");
-        outfits.put("Formal", formal);
-    }
+        // Use the day of the year to seed the random number generator
+        // for consistent daily suggestions.
+        Calendar calendar = Calendar.getInstance();
+        int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        Random random = new Random(dayOfYear);
 
-    public String suggestOutfit(String occasion) {
-        if (outfits.containsKey(occasion)) {
-            List<String> occasionOutfits = outfits.get(occasion);
-            if (occasionOutfits != null && !occasionOutfits.isEmpty()) {
-                Random random = new Random();
-                return occasionOutfits.get(random.nextInt(occasionOutfits.size()));
+        int numOutfits = outfits.size();
+        if (numOutfits < 3) {
+            return outfits; // Return all if less than 3
+        }
+
+        while (suggestions.size() < 3) {
+            Outfit suggestion = outfits.get(random.nextInt(numOutfits));
+            if (!suggestions.contains(suggestion)) {
+                suggestions.add(suggestion);
             }
         }
-        return "I don't have a suggestion for that occasion. How about a classic T-Shirt and Jeans?";
+        return suggestions;
     }
 
-    // In a real app, you would have methods to add/remove clothing items and outfits,
-    // potentially with image URIs to display visual cards.
+    public static class Outfit {
+        private final String style;
+        private final String description;
+        private final String drawableName; // To link with a visual representation
+
+        public Outfit(String style, String description, String drawableName) {
+            this.style = style;
+            this.description = description;
+            this.drawableName = drawableName;
+        }
+
+        public String getStyle() {
+            return style;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getDrawableName() {
+            return drawableName;
+        }
+    }
 }

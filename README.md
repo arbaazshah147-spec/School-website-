@@ -1,53 +1,55 @@
-# Jarvis - AI Assistant + Automation Companion
+# Jarvis - Android AI Assistant
 
-## App Overview
-
-Jarvis is a production-safe Android application designed to act as a personal AI assistant and automation companion. It is built with a focus on performance on low-end devices and is developed entirely in Java. The application provides a seamless voice and text-based interface for interacting with various AI models and device features.
+Jarvis is a mobile-first Android AI assistant application designed to be a complete, all-in-one solution for managing your daily life. It features a multi-AI backend, a futuristic, dark-themed UI, and a wide range of features, all optimized for low-end Android devices.
 
 ## Features
 
-- **Multi-AI Integration**: Jarvis intelligently routes user queries to different AI models (Gemini, ChatGPT, Grok) based on the intent of the query, ensuring the best possible response.
-- **Customizable Identity**: Users can personalize their experience by setting their username, renaming the AI, and defining a custom wake word and welcome message.
-- **Extensible Command System**: A powerful custom command builder allows users to create their own voice commands to open apps, send messages, control media, and more.
-- **Feature-Rich Modules**: The app includes a variety of built-in features, such as a task manager, notes manager, wardrobe assistant, fitness coach, and a floating HUD for easy access.
-- **Voice and Text Interaction**: Jarvis supports both voice and text input, with a custom wake word simulation and human-like Text-to-Speech output in English and Hindi.
-- **Dark Futuristic UI**: The user interface is designed with a dark, futuristic theme that is both aesthetically pleasing and easy on the eyes.
+*   **Multi-AI Workflow:** Jarvis uses a multi-AI chaining system to provide the best possible response to your queries. It routes planning and factual questions to Gemini, personalization to ChatGPT, and analysis to Grok.
+*   **Voice and Text Input:** Interact with Jarvis using either voice or text. The app features a custom wake word and continuous session mode for a seamless experience.
+*   **Floating HUD:** When granted the overlay permission, Jarvis can display a floating HUD with real-time information, such as news, calendar events, and stock prices.
+*   **Comprehensive Feature Set:** Jarvis includes a wide range of features to help you manage your life, including:
+    *   **Task and Schedule Manager:** Keep track of your to-do lists and appointments.
+    *   **Notes Manager:** Take notes with your voice, with robust parsing for titles and content.
+    *   **Wardrobe Manager:** Get three daily outfit suggestions, complete with visual representations.
+    *   **Fitness Coach:** Get a daily workout to stay in shape.
+    *   **Camera Search:** (Simulated) Identify objects in your environment using your camera.
+    *   **Downloader:** Download files and apps with a simple voice command.
+    *   **Share Manager:** Share text, photos, videos, and audio with other apps.
+    *   **Location Predictor:** Get location-based suggestions for restaurants, traffic, and more.
+*   **Customizable:** Jarvis is highly customizable. You can change the AI's name, your username, the wake word, and the welcome message. You can also add your own custom commands to perform any action you want.
 
-## API Setup
+## Setup
 
-To use the AI features of Jarvis, you will need to obtain API keys from the respective providers and add them to the app's settings screen.
-
-1.  **Gemini API Key**:
-    - Go to the [Google AI Studio](https://aistudio.google.com/app/apikey) and create an API key.
-    - Open the Jarvis app, navigate to **Settings -> API Management**, and paste the key into the "Gemini API Key" field.
-
-2.  **ChatGPT API Key**:
-    - Go to the [OpenAI Platform](https://platform.openai.com/account/api-keys) and create a new secret key.
-    - In the Jarvis app's settings, paste the key into the "ChatGPT API Key" field.
-
-3.  **Grok API Key**:
-    - Access to the Grok API is currently limited. If you have access, you can find your API key in your X.ai developer portal.
-    - Paste the key into the "Grok API Key" field in the app's settings.
-
-**Note**: All API keys are stored securely in the app's private SharedPreferences.
+1.  **Clone the repository:**
+    ```
+    git clone https://github.com/your-username/jarvis.git
+    ```
+2.  **Open in Android Studio:** Open the project in Android Studio or your preferred IDE.
+3.  **Get API Keys:** To use the multi-AI features, you will need to obtain API keys from the following services:
+    *   **Google AI Studio:** For the Gemini API key.
+    *   **OpenAI:** For the ChatGPT API key.
+    *   **X.ai:** For the Grok API key (when available).
+4.  **Add API Keys:** Open the **Settings** screen in the app and add your API keys to the appropriate fields.
+5.  **Build and Run:** Build the project and run it on your Android device or emulator.
 
 ## Permissions
 
 Jarvis requires the following permissions to function correctly:
 
--   `INTERNET`: To connect to the AI services.
--   `RECORD_AUDIO`: For voice input.
--   `ACCESS_FINE_LOCATION` / `ACCESS_COARSE_LOCATION`: For location-based predictions and suggestions.
--   `CAMERA`: For the (simulated) camera search feature.
--   `SYSTEM_ALERT_WINDOW`: To display the floating HUD. This permission must be granted manually by the user in the device's settings.
--   `READ_EXTERNAL_STORAGE` / `WRITE_EXTERNAL_STORAGE`: For the downloader and notes features.
--   `FOREGROUND_SERVICE`: To run the floating HUD service.
+*   **INTERNET:** To connect to the AI APIs.
+*   **RECORD_AUDIO:** To use the voice input feature.
+*   **SYSTEM_ALERT_WINDOW:** To display the floating HUD.
+*   **ACCESS_FINE_LOCATION:** To provide location-based suggestions.
+*   **READ_EXTERNAL_STORAGE / WRITE_EXTERNAL_STORAGE:** To download files and access media for sharing.
+*   **CAMERA:** To use the camera search feature.
 
-## Limitations (Non-Root)
+## Limitations
 
-As a non-root application, Jarvis has certain limitations:
+*   **Simulated Features:** Some features, such as the camera search and location predictor, are currently simulated and do not have full functionality.
+*   **Grok API:** The Grok API is not yet publicly available, so the Grok client is a placeholder.
+*   **Basic UI:** The UI is functional but basic. A more polished and animated UI will be implemented in a future release.
+*   **In-Memory Storage:** The Task Manager and Notes Manager use in-memory storage, so your data will not be persisted between sessions. This will be replaced with a database in a future release.
 
--   **System Actions**: Jarvis cannot perform actions that require root access, such as turning GPS on/off, enabling/disabling mobile data, or force-closing other apps.
--   **Accessibility Services**: Voice commands for "Back", "Home", and "Recents" are simulated. For full functionality, an Accessibility Service would be required, which is a more advanced implementation not included in this version.
--   **Wake Word**: The wake word detection is software-based and relies on the app's microphone being active. It will not work when the app is in the background or the screen is off, unlike hardware-level wake word detection.
--   **App Integration**: Integration with third-party apps (e.g., for ordering) is simulated. Real integration would require official APIs from those services.
+## Contributing
+
+Contributions are welcome! Please feel free to open an issue or submit a pull request.

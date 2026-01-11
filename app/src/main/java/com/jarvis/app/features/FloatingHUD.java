@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import com.jarvis.app.R;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class FloatingHUD extends Service {
 
     private WindowManager windowManager;
     private View floatingView;
-    private TextView overlayText;
+    private TextView hudText;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -27,19 +30,14 @@ public class FloatingHUD extends Service {
     public void onCreate() {
         super.onCreate();
 
-        floatingView = LayoutInflater.from(this).inflate(R.layout.activity_overlay, null);
-
-        int layout_parms;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            layout_parms = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            layout_parms = WindowManager.LayoutParams.TYPE_PHONE;
-        }
+        floatingView = LayoutInflater.from(this).inflate(R.layout.hud_layout, null); // We need to create this layout
 
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                layout_parms,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
+                        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
+                        WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
@@ -50,20 +48,20 @@ public class FloatingHUD extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         windowManager.addView(floatingView, params);
 
-        overlayText = floatingView.findViewById(R.id.overlay_text);
+        hudText = floatingView.findViewById(R.id.hud_text); // We need this id in the layout
+        updateHudText();
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.hasExtra("text")) {
-            String text = intent.getStringExtra("text");
-            if (overlayText != null) {
-                overlayText.setText(text);
-            }
-        }
-        return START_NOT_STICKY;
-    }
+    private void updateHudText() {
+        // Simple example: Display current time
+        // In a real app, this would fetch news, stocks, etc.
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        String currentTime = sdf.format(new Date());
+        hudText.setText("Jarvis HUD\n" + currentTime);
 
+        // Update every second
+        hudText.postDelayed(this::updateHudText, 1000);
+    }
 
     @Override
     public void onDestroy() {

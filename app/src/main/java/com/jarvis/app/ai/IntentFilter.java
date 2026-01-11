@@ -1,58 +1,25 @@
 package com.jarvis.app.ai;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class IntentFilter {
 
     public enum IntentType {
-        FINANCE,
-        WORK,
-        PERSONAL,
-        PLANNING,
-        GENERAL,
-        UNKNOWN
+        FINANCE, WORK, PERSONAL, PLAN, UNKNOWN
     }
 
-    // Simple keyword-based intent classification
-    public static IntentType getIntent(String query) {
-        String lowerCaseQuery = query.toLowerCase();
+    public IntentType classifyIntent(String userInput) {
+        String lowerCaseInput = userInput.toLowerCase();
 
-        // Keywords for each intent type
-        List<String> financeKeywords = Arrays.asList("money", "expense", "budget", "stock", "market", "finance", "price", "cost");
-        List<String> workKeywords = Arrays.asList("meeting", "email", "schedule", "deadline", "project", "task", "work", "office");
-        List<String> personalKeywords = Arrays.asList("note", "reminder", "call", "message", "friend", "family", "personal");
-        List<String> planningKeywords = Arrays.asList("plan", "schedule", "what's my day", "itinerary", "book", "reserve");
-
-        if (containsKeyword(lowerCaseQuery, financeKeywords)) {
+        // Simple keyword-based intent classification
+        if (lowerCaseInput.contains("stock") || lowerCaseInput.contains("market") || lowerCaseInput.contains("price")) {
             return IntentType.FINANCE;
-        } else if (containsKeyword(lowerCaseQuery, workKeywords)) {
+        } else if (lowerCaseInput.contains("schedule") || lowerCaseInput.contains("meeting") || lowerCaseInput.contains("email")) {
             return IntentType.WORK;
-        } else if (containsKeyword(lowerCaseQuery, personalKeywords)) {
+        } else if (lowerCaseInput.contains("how are you") || lowerCaseInput.contains("tell me a joke")) {
             return IntentType.PERSONAL;
-        } else if (containsKeyword(lowerCaseQuery, planningKeywords)) {
-            return IntentType.PLANNING;
-        } else {
-            // More sophisticated NLP would be needed for better classification.
-            // For now, if no specific keywords are found, we can classify it as GENERAL.
-            // Or we could try to identify questions.
-            if (lowerCaseQuery.startsWith("who") || lowerCaseQuery.startsWith("what") ||
-                lowerCaseQuery.startsWith("where") || lowerCaseQuery.startsWith("when") ||
-                lowerCaseQuery.startsWith("why") || lowerCaseQuery.startsWith("how") ||
-                lowerCaseQuery.contains("?")) {
-                return IntentType.GENERAL;
-            }
+        } else if (lowerCaseInput.contains("plan") || lowerCaseInput.contains("what should i do")) {
+            return IntentType.PLAN;
         }
 
         return IntentType.UNKNOWN;
-    }
-
-    private static boolean containsKeyword(String text, List<String> keywords) {
-        for (String keyword : keywords) {
-            if (text.contains(keyword)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

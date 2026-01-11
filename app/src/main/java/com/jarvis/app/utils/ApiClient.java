@@ -1,41 +1,29 @@
 package com.jarvis.app.utils;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import java.io.IOException;
 
 public class ApiClient {
 
-    private static Retrofit geminiRetrofit = null;
-    private static Retrofit chatgptRetrofit = null;
-    private static Retrofit grokRetrofit = null;
+    private final OkHttpClient client;
+    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-    public static Retrofit getGeminiClient() {
-        if (geminiRetrofit == null) {
-            geminiRetrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.GEMINI_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return geminiRetrofit;
+    public ApiClient() {
+        this.client = new OkHttpClient();
     }
 
-    public static Retrofit getChatGPTClient() {
-        if (chatgptRetrofit == null) {
-            chatgptRetrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.CHATGPT_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return chatgptRetrofit;
-    }
-
-    public static Retrofit getGrokClient() {
-        if (grokRetrofit == null) {
-            grokRetrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.GROK_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return grokRetrofit;
+    public void makeRequest(String url, String json, String apiKey, Callback callback) {
+        RequestBody body = RequestBody.create(json, JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + apiKey)
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(callback);
     }
 }
