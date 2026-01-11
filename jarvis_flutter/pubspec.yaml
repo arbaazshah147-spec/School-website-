@@ -1,0 +1,50 @@
+name: jarvis_flutter
+description: A new Flutter project for the Jarvis AI assistant.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Core Functionality
+  http: ^1.1.0
+  shared_preferences: ^2.2.2
+  permission_handler: ^11.0.1
+
+  # AI & Speech
+  flutter_tts: ^3.8.3
+  speech_to_text: ^6.3.0
+
+  # UI & Styling
+  cupertino_icons: ^1.0.2
+  google_fonts: ^6.1.0
+
+  # State Management
+  provider: ^6.0.5
+
+  # Utilities
+  json_annotation: ^4.8.1
+  url_launcher: ^6.2.1
+  path_provider: ^2.1.1
+  share_plus: ^7.2.1
+  geolocator: ^10.1.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  build_runner: ^2.4.6
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
