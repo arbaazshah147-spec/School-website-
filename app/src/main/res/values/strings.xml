@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Jarvis</string>
-    <string name="welcome_message">Welcome to Jarvis</string>
-    <string name="dashboard_title">Dashboard</string>
-    <string name="settings_title">Settings</string>
-    <string name="save_button">Save</string>
-</resources>
