@@ -48,7 +48,7 @@ Jarvis requires the following permissions to function correctly:
 *   **Simulated Features:** Some features, such as the camera search and location predictor, are currently simulated and do not have full functionality.
 *   **Grok API:** The Grok API is not yet publicly available, so the Grok client is a placeholder.
 *   **Basic UI:** The UI is functional but basic. A more polished and animated UI will be implemented in a future release.
-*   **In-Memory Storage:** The Task Manager and Notes Manager use in-memory storage, so your data will not be persisted between sessions. This will be replaced with a database in a future release.
+*   **File-Based Storage:** The Task Manager and Notes Manager use a simple file-based storage system. While this is an improvement over in-memory storage, a more robust database solution will be implemented in a future release.
 
 ## Contributing
 

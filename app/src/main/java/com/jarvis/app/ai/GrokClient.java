@@ -1,15 +1,15 @@
 package com.jarvis.app.ai;
 
+import com.google.gson.Gson;
 import com.jarvis.app.utils.ApiClient;
 import com.jarvis.app.utils.Constants;
 import okhttp3.Callback;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class GrokClient {
 
     private final ApiClient apiClient;
     private final String apiKey;
+    private final Gson gson = new Gson();
 
     public GrokClient(String apiKey) {
         this.apiClient = new ApiClient();
@@ -19,13 +19,20 @@ public class GrokClient {
     public void generateSummary(String prompt, Callback callback) {
         // NOTE: This is a placeholder implementation as the Grok API is not public.
         // The request format is an assumption.
-        try {
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("prompt", prompt);
-            jsonBody.put("model", "grok-1");
-            apiClient.makeRequest(Constants.GROK_API_URL, jsonBody.toString(), apiKey, callback);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        GrokRequest requestBody = new GrokRequest("grok-1", prompt);
+        String jsonBody = gson.toJson(requestBody);
+
+        apiClient.makeRequest(Constants.GROK_API_URL, jsonBody, apiKey, callback);
+    }
+
+    // Inner class for Gson serialization
+    private static class GrokRequest {
+        private final String model;
+        private final String prompt;
+
+        public GrokRequest(String model, String prompt) {
+            this.model = model;
+            this.prompt = prompt;
         }
     }
 }
