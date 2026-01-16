@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/primary_dark"
     tools:context=".ui.SettingsActivity">
 
     <LinearLayout
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/settings_title"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/text_primary"
             android:textSize="28sp"
             android:layout_marginBottom="24dp"/>
 
@@ -25,7 +25,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="8dp"
             android:layout_marginBottom="16dp">
             <LinearLayout
@@ -37,40 +37,40 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_user_identity"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:layout_marginBottom="16dp"/>
                 <EditText
-                    android:id="@+id/username_edit_text"
+                    android:id="@+id/user_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_username"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
                     android:layout_marginBottom="8dp"/>
                 <EditText
-                    android:id="@+id/ai_name_edit_text"
+                    android:id="@+id/ai_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_ai_name"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
                     android:layout_marginBottom="8dp"/>
                 <EditText
-                    android:id="@+id/wake_word_edit_text"
+                    android:id="@+id/wake_word_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_wake_word"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
                     android:layout_marginBottom="8dp"/>
                 <EditText
-                    android:id="@+id/welcome_response_edit_text"
+                    android:id="@+id/welcome_message_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_welcome_response"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"/>
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -78,7 +78,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="8dp"
             android:layout_marginBottom="16dp">
             <LinearLayout
@@ -90,35 +90,68 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_api_management"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:layout_marginBottom="16dp"/>
-                <EditText
-                    android:id="@+id/gemini_api_key_edit_text"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_gemini_api_key"
-                    android:inputType="textPassword"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
-                    android:layout_marginBottom="8dp"/>
-                <EditText
-                    android:id="@+id/chatgpt_api_key_edit_text"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/gemini_api_key_field"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/settings_gemini_api_key"
+                        android:inputType="textPassword"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
+                        android:layout_marginBottom="8dp"/>
+                    <Button
+                        android:id="@+id/test_gemini_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_test"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_chatgpt_api_key"
-                    android:inputType="textPassword"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
-                    android:layout_marginBottom="8dp"/>
-                <EditText
-                    android:id="@+id/grok_api_key_edit_text"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/chatgpt_api_key_field"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/settings_chatgpt_api_key"
+                        android:inputType="textPassword"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
+                        android:layout_marginBottom="8dp"/>
+                    <Button
+                        android:id="@+id/test_chatgpt_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_test"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_grok_api_key"
-                    android:inputType="textPassword"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"/>
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/grok_api_key_field"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/settings_grok_api_key"
+                        android:inputType="textPassword"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"/>
+                    <Button
+                        android:id="@+id/test_grok_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_test"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -126,7 +159,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="8dp"
             android:layout_marginBottom="16dp">
             <LinearLayout
@@ -138,24 +171,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_custom_command_builder"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:layout_marginBottom="16dp"/>
-                <EditText
-                    android:id="@+id/command_name_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/settings_command_name"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
-                    android:layout_marginBottom="8dp"/>
                 <EditText
                     android:id="@+id/command_trigger_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_command_trigger"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
                     android:layout_marginBottom="8dp"/>
                 <Spinner
                     android:id="@+id/action_type_spinner"
@@ -167,8 +192,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Action Value (e.g., App Name)"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorSecondary"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
                     android:layout_marginBottom="8dp"/>
                 <Button
                     android:id="@+id/save_command_button"
@@ -179,7 +204,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/save_settings_button"
+            android:id="@+id/save_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings_save_all"/>
