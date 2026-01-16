@@ -3,30 +3,24 @@ package com.jarvis.app.features;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Toast;
+import android.telephony.SmsManager;
 
 public class MessageHandler {
-    private Context context;
 
-    public MessageHandler(Context context) {
-        this.context = context;
+    public static boolean sendSms(Context context, String phoneNumber, String message) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void sendMessage(String... args) {
-        if (args.length < 2) {
-            Toast.makeText(context, "Please specify a recipient and a message.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String recipient = args[0];
-        String message = "";
-        for (int i = 1; i < args.length; i++) {
-            message += args[i] + " ";
-        }
-
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("smsto:" + recipient));
-        intent.putExtra("sms_body", message);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    public static void sendWhatsAppMessage(Context context, String phoneNumber, String message) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + message));
         context.startActivity(intent);
     }
 }

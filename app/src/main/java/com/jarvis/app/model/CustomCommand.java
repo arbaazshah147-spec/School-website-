@@ -1,20 +1,20 @@
 package com.jarvis.app.model;
 
 public class CustomCommand {
-    private String name;
     private String trigger;
     private String actionType;
     private String actionValue;
+    private String argumentPlaceholder;
 
-    public CustomCommand(String name, String trigger, String actionType, String actionValue) {
-        this.name = name;
+    public CustomCommand(String trigger, String actionType, String actionValue) {
         this.trigger = trigger;
         this.actionType = actionType;
-        this.actionValue = actionValue;
-    }
-
-    public String getName() {
-        return name;
+        if (actionValue.contains("{arg}")) {
+            this.actionValue = actionValue.replace("{arg}", "").trim();
+            this.argumentPlaceholder = "{arg}";
+        } else {
+            this.actionValue = actionValue;
+        }
     }
 
     public String getTrigger() {
@@ -27,5 +27,9 @@ public class CustomCommand {
 
     public String getActionValue() {
         return actionValue;
+    }
+
+    public boolean hasArgument() {
+        return argumentPlaceholder != null;
     }
 }

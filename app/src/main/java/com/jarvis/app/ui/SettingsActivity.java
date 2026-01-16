@@ -1,67 +1,69 @@
 package com.jarvis.app.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jarvis.app.R;
+import com.jarvis.app.ai.ChatGPTClient;
+import com.jarvis.app.ai.GeminiClient;
+import com.jarvis.app.ai.GrokClient;
+import com.jarvis.app.core.MemoryStore;
 import com.jarvis.app.model.CustomCommand;
-import com.jarvis.app.utils.Constants;
-
+import com.jarvis.app.utils.ApiClient;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private EditText usernameEditText, aiNameEditText, wakeWordEditText, welcomeResponseEditText;
-    private EditText geminiApiKeyEditText, chatgptApiKeyEditText, grokApiKeyEditText;
-    private EditText commandNameEditText, commandTriggerEditText, commandActionValueEditText;
+    private EditText aiNameField, userNameField, wakeWordField, welcomeMessageField;
+    private EditText geminiApiKeyField, chatgptApiKeyField, grokApiKeyField;
+    private EditText commandTriggerField, commandActionValueField;
+    private Button saveButton, testGeminiButton, testChatgptButton, testGrokButton, saveCommandButton;
     private Spinner actionTypeSpinner;
-    private Button saveCommandButton, saveSettingsButton;
 
-    private SharedPreferences prefs;
+    private MemoryStore memoryStore;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
+        memoryStore = new MemoryStore(this);
+        gson = new Gson();
 
         // User Identity
-        usernameEditText = findViewById(R.id.username_edit_text);
-        aiNameEditText = findViewById(R.id.ai_name_edit_text);
-        wakeWordEditText = findViewById(R.id.wake_word_edit_text);
-        welcomeResponseEditText = findViewById(R.id.welcome_response_edit_text);
+        aiNameField = findViewById(R.id.ai_name_field);
+        userNameField = findViewById(R.id.user_name_field);
+        wakeWordField = findViewById(R.id.wake_word_field);
+        welcomeMessageField = findViewById(R.id.welcome_message_field);
 
         // API Management
-        geminiApiKeyEditText = findViewById(R.id.gemini_api_key_edit_text);
-        chatgptApiKeyEditText = findViewById(R.id.chatgpt_api_key_edit_text);
-        grokApiKeyEditText = findViewById(R.id.grok_api_key_edit_text);
+        geminiApiKeyField = findViewById(R.id.gemini_api_key_field);
+        chatgptApiKeyField = findViewById(R.id.chatgpt_api_key_field);
+        grokApiKeyField = findViewById(R.id.grok_api_key_field);
+        testGeminiButton = findViewById(R.id.test_gemini_button);
+        testChatgptButton = findViewById(R.id.test_chatgpt_button);
+        testGrokButton = findViewById(R.id.test_grok_button);
 
-        // Custom Command Builder
-        commandNameEditText = findViewById(R.id.command_name_edit_text);
-        commandTriggerEditText = findViewById(R.id.command_trigger_edit_text);
-        commandActionValueEditText = findViewById(R.id.command_action_value_edit_text);
+        // Custom Commands
+        commandTriggerField = findViewById(R.id.command_trigger_edit_text);
+        commandActionValueField = findViewById(R.id.command_action_value_edit_text);
         actionTypeSpinner = findViewById(R.id.action_type_spinner);
         saveCommandButton = findViewById(R.id.save_command_button);
 
-        saveSettingsButton = findViewById(R.id.save_settings_button);
+        saveButton = findViewById(R.id.save_button);
 
         setupSpinner();
         loadSettings();
-
-        saveSettingsButton.setOnClickListener(v -> saveSettings());
-        saveCommandButton.setOnClickListener(v -> saveCustomCommand());
+        setupListeners();
     }
 
     private void setupSpinner() {
@@ -72,58 +74,87 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void loadSettings() {
-        usernameEditText.setText(prefs.getString(Constants.KEY_USERNAME, ""));
-        aiNameEditText.setText(prefs.getString(Constants.KEY_AI_NAME, "Jarvis"));
-        wakeWordEditText.setText(prefs.getString(Constants.KEY_WAKE_WORD, "Hey Jarvis"));
-        welcomeResponseEditText.setText(prefs.getString(Constants.KEY_WELCOME_RESPONSE, "Hi {username}, I’m {ai_name}. Ready when you are."));
-
-        geminiApiKeyEditText.setText(prefs.getString(Constants.KEY_GEMINI_API_KEY, ""));
-        chatgptApiKeyEditText.setText(prefs.getString(Constants.KEY_CHATGPT_API_KEY, ""));
-        grokApiKeyEditText.setText(prefs.getString(Constants.KEY_GROK_API_KEY, ""));
+        aiNameField.setText(memoryStore.get("ai_name", "Jarvis"));
+        userNameField.setText(memoryStore.get("user_name", "User"));
+        wakeWordField.setText(memoryStore.get("wake_word", "Hey Jarvis"));
+        welcomeMessageField.setText(memoryStore.get("welcome_message", "How can I help?"));
+        geminiApiKeyField.setText(memoryStore.get("gemini_api_key", ""));
+        chatgptApiKeyField.setText(memoryStore.get("chatgpt_api_key", ""));
+        grokApiKeyField.setText(memoryStore.get("grok_api_key", ""));
     }
 
-    private void saveSettings() {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.KEY_USERNAME, usernameEditText.getText().toString());
-        editor.putString(Constants.KEY_AI_NAME, aiNameEditText.getText().toString());
-        editor.putString(Constants.KEY_WAKE_WORD, wakeWordEditText.getText().toString());
-        editor.putString(Constants.KEY_WELCOME_RESPONSE, welcomeResponseEditText.getText().toString());
+    private void setupListeners() {
+        saveButton.setOnClickListener(v -> saveSettings());
 
-        editor.putString(Constants.KEY_GEMINI_API_KEY, geminiApiKeyEditText.getText().toString());
-        editor.putString(Constants.KEY_CHATGPT_API_KEY, chatgptApiKeyEditText.getText().toString());
-        editor.putString(Constants.KEY_GROK_API_KEY, grokApiKeyEditText.getText().toString());
+        testGeminiButton.setOnClickListener(v -> testApiKey(new GeminiClient(this), "Hello", "gemini_api_key"));
+        testChatgptButton.setOnClickListener(v -> testApiKey(new ChatGPTClient(this), "Hello", "chatgpt_api_key"));
+        testGrokButton.setOnClickListener(v -> testApiKey(new GrokClient(this), "Hello", "grok_api_key"));
 
-        editor.apply();
-
-        Toast.makeText(this, "Settings saved.", Toast.LENGTH_SHORT).show();
+        saveCommandButton.setOnClickListener(v -> saveCustomCommand());
     }
 
-    private void saveCustomCommand() {
-        String name = commandNameEditText.getText().toString().trim();
-        String trigger = commandTriggerEditText.getText().toString().trim().toLowerCase();
-        String actionType = actionTypeSpinner.getSelectedItem().toString();
-        String actionValue = commandActionValueEditText.getText().toString().trim();
-
-        if (name.isEmpty() || trigger.isEmpty() || actionValue.isEmpty()) {
-            Toast.makeText(this, "Command name, trigger, and action value cannot be empty.", Toast.LENGTH_SHORT).show();
+    private void testApiKey(Object client, String testQuery, String keyName) {
+        String apiKey = memoryStore.get(keyName, "");
+        if (apiKey.isEmpty()) {
+            Toast.makeText(this, "API Key is empty.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Gson gson = new Gson();
-        String jsonCommands = prefs.getString("custom_commands", "[]");
+        ApiClient.ApiCallback callback = new ApiClient.ApiCallback() {
+            @Override
+            public void onSuccess(String response) {
+                runOnUiThread(() -> Toast.makeText(SettingsActivity.this, "API Key is valid!", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                runOnUiThread(() -> Toast.makeText(SettingsActivity.this, "API Key is invalid: " + e.getMessage(), Toast.LENGTH_LONG).show());
+            }
+        };
+
+        if (client instanceof GeminiClient) {
+            ((GeminiClient) client).getResponse(testQuery, callback);
+        } else if (client instanceof ChatGPTClient) {
+            ((ChatGPTClient) client).getResponse(testQuery, callback);
+        } else if (client instanceof GrokClient) {
+            ((GrokClient) client).getResponse(testQuery, callback);
+        }
+    }
+
+
+    private void saveSettings() {
+        memoryStore.save("ai_name", aiNameField.getText().toString());
+        memoryStore.save("user_name", userNameField.getText().toString());
+        memoryStore.save("wake_word", wakeWordField.getText().toString());
+        memoryStore.save("welcome_message", welcomeMessageField.getText().toString());
+        memoryStore.save("gemini_api_key", geminiApiKeyField.getText().toString());
+        memoryStore.save("chatgpt_api_key", chatgptApiKeyField.getText().toString());
+        memoryStore.save("grok_api_key", grokApiKeyField.getText().toString());
+        Toast.makeText(this, "Settings Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void saveCustomCommand() {
+        String trigger = commandTriggerField.getText().toString().trim().toLowerCase();
+        String actionType = actionTypeSpinner.getSelectedItem().toString();
+        String actionValue = commandActionValueField.getText().toString().trim();
+
+        if (trigger.isEmpty() || actionValue.isEmpty()) {
+            Toast.makeText(this, "Trigger and Action Value cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String json = memoryStore.get("custom_commands", "[]");
         Type type = new TypeToken<ArrayList<CustomCommand>>() {}.getType();
-        List<CustomCommand> commands = gson.fromJson(jsonCommands, type);
+        List<CustomCommand> commands = gson.fromJson(json, type);
+        if (commands == null) {
+            commands = new ArrayList<>();
+        }
 
-        commands.add(new CustomCommand(name, trigger, actionType, actionValue));
+        commands.add(new CustomCommand(trigger, actionType, actionValue));
+        memoryStore.saveObject("custom_commands", commands);
 
-        String newJsonCommands = gson.toJson(commands);
-        prefs.edit().putString("custom_commands", newJsonCommands).apply();
-
-        Toast.makeText(this, "Custom command '" + name + "' saved.", Toast.LENGTH_SHORT).show();
-
-        // Clear fields for next command
-        commandNameEditText.setText("");
-        commandTriggerEditText.setText("");
-        commandActionValueEditText.setText("");
+        Toast.makeText(this, "Custom command saved!", Toast.LENGTH_SHORT).show();
+        commandTriggerField.setText("");
+        commandActionValueField.setText("");
     }
 }

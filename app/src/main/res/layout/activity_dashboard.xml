@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/primary_dark"
     tools:context=".ui.DashboardActivity">
 
     <LinearLayout
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dashboard_title"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/text_primary"
             android:textSize="28sp"
             android:layout_marginBottom="24dp"/>
 
@@ -25,14 +25,15 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="8dp"
             android:layout_marginBottom="16dp">
             <TextView
+                android:id="@+id/tasks_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dashboard_tasks"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/text_primary"
                 android:padding="16dp"
                 android:textSize="18sp"/>
         </androidx.cardview.widget.CardView>
@@ -41,14 +42,15 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="8dp"
             android:layout_marginBottom="16dp">
             <TextView
+                android:id="@+id/notes_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dashboard_notes"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/text_primary"
                 android:padding="16dp"
                 android:textSize="18sp"/>
         </androidx.cardview.widget.CardView>
@@ -57,14 +59,15 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="8dp"
             android:layout_marginBottom="16dp">
             <TextView
+                android:id="@+id/wardrobe_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dashboard_wardrobe"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/text_primary"
                 android:padding="16dp"
                 android:textSize="18sp"/>
         </androidx.cardview.widget.CardView>
@@ -73,14 +76,15 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/primary"
             app:cardCornerRadius="8dp"
             android:layout_marginBottom="16dp">
             <TextView
+                android:id="@+id/fitness_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dashboard_fitness"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/text_primary"
                 android:padding="16dp"
                 android:textSize="18sp"/>
         </androidx.cardview.widget.CardView>

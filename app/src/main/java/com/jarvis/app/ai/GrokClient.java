@@ -1,90 +1,80 @@
 package com.jarvis.app.ai;
 
-import com.google.gson.annotations.SerializedName;
+import android.content.Context;
+import com.google.gson.Gson;
+import com.jarvis.app.core.MemoryStore;
 import com.jarvis.app.utils.ApiClient;
-
-import java.io.IOException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
+import com.jarvis.app.utils.Constants;
+import java.util.Collections;
 
 public class GrokClient {
 
-    private final GrokApi grokApi;
+    private final ApiClient apiClient;
+    private final Gson gson;
+    private final MemoryStore memoryStore;
+    private final Context context;
 
-    public GrokClient(String apiKey) {
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
-            Request original = chain.request();
-            Request request = original.newBuilder()
-                    // Grok's authentication might be different (e.g., x-api-key)
-                    .header("Authorization", "Bearer " + apiKey)
-                    .header("Content-Type", "application/json")
-                    .method(original.method(), original.body())
-                    .build();
-            return chain.proceed(request);
-        }).build();
-
-        this.grokApi = ApiClient.getGrokClient().newBuilder().client(client).build().create(GrokApi.class);
+    public GrokClient(Context context) {
+        this.context = context;
+        this.apiClient = new ApiClient(context);
+        this.gson = new Gson();
+        this.memoryStore = new MemoryStore(context);
     }
 
-    // Speculative endpoint
-    public interface GrokApi {
-        @POST("v1/chat/completions")
-        Call<GrokResponse> generateCompletion(@Body GrokRequest body);
-    }
+    public void getResponse(String query, final ApiClient.ApiCallback callback) {
+        String apiKey = memoryStore.get("grok_api_key", "");
+        if (apiKey.isEmpty()) {
+            callback.onFailure(new Exception("Grok API key not found."));
+            return;
+        }
+        String url = Constants.GROK_API_URL;
 
-    public void getResponse(String query, final AiCallback callback) {
-        // Speculative request structure
-        GrokRequest request = new GrokRequest("grok-1", query, 28000);
+        // Create the request body - Note: This is a speculative structure for Grok
+        Message message = new Message("user", query);
+        GrokRequest request = new GrokRequest("grok-1", Collections.singletonList(message));
+        String jsonBody = gson.toJson(request);
 
-        grokApi.generateCompletion(request).enqueue(new Callback<GrokResponse>() {
+        apiClient.post(url, jsonBody, apiKey, new ApiClient.ApiCallback() {
             @Override
-            public void onResponse(Call<GrokResponse> call, Response<GrokResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    try {
-                        // Speculative response structure
-                        String text = response.body().text;
-                        callback.onSuccess(text);
-                    } catch (Exception e) {
-                        callback.onFailure("Failed to parse Grok response.");
-                    }
-                } else {
-                    try {
-                        callback.onFailure("Grok API Error: " + response.code() + " " + response.errorBody().string());
-                    } catch (IOException e) {
-                        callback.onFailure("Grok API Error: Could not read error body.");
-                    }
+            public void onSuccess(String response) {
+                try {
+                    // This response parsing is speculative and may need adjustment
+                    GrokResponse grokResponse = gson.fromJson(response, GrokResponse.class);
+                    String text = grokResponse.choices.get(0).message.content;
+                    callback.onSuccess(text);
+                } catch (Exception e) {
+                    callback.onFailure(new Exception("Failed to parse Grok response."));
                 }
             }
 
             @Override
-            public void onFailure(Call<GrokResponse> call, Throwable t) {
-                callback.onFailure("Grok network request failed: " + t.getMessage());
+            public void onFailure(Exception e) {
+                callback.onFailure(e);
             }
         });
     }
 
-    // Request and Response POJOs based on speculative API structure
-    static class GrokRequest {
-        String model;
-        String prompt;
-        @SerializedName("max_tokens")
-        int maxTokens;
-
-        public GrokRequest(String model, String prompt, int maxTokens) {
+    // POJOs for Grok Request/Response (speculative, based on OpenAI's format)
+    private static class GrokRequest {
+        private final String model;
+        private final java.util.List<Message> messages;
+        public GrokRequest(String model, java.util.List<Message> messages) {
             this.model = model;
-            this.prompt = prompt;
-            this.maxTokens = maxTokens;
+            this.messages = messages;
         }
     }
-
-    static class GrokResponse {
-        String text;
-        // Other potential fields
+    private static class GrokResponse {
+        public java.util.List<Choice> choices;
+    }
+    private static class Message {
+        private final String role;
+        private final String content;
+        public Message(String role, String content) {
+            this.role = role;
+            this.content = content;
+        }
+    }
+    private static class Choice {
+        public Message message;
     }
 }
