@@ -34,6 +34,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Portfolio Filtering Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    function applyFilter(filterValue) {
+        // Update buttons
+        filterBtns.forEach(btn => {
+            if (btn.getAttribute('data-filter') === filterValue) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Update items
+        portfolioItems.forEach(item => {
+            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                item.style.display = 'block';
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 10);
+            } else {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.display = 'none';
+                }, 300);
+            }
+        });
+    }
+
+    // Check for URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialFilter = urlParams.get('filter');
+    if (initialFilter) {
+        applyFilter(initialFilter);
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filterValue = btn.getAttribute('data-filter');
+            applyFilter(filterValue);
+        });
+    });
+
     // Simple scroll animation observer
     const observerOptions = {
         threshold: 0.1
