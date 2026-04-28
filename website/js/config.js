@@ -2,7 +2,7 @@ const CONFIG = {
     businessName: "Faizan P.O.P",
     ownerName: "Faizan",
     location: "Yavatmal, Maharashtra",
-    whatsappNumber: "+917823888641",
+    whatsappNumber: "+917559361855",
     email: "contact@faizanpop.com",
     services: [
         {

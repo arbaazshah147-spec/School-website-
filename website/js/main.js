@@ -188,11 +188,11 @@ function getServiceIcon(id) {
 
 const portfolioData = [
     { title: "Luxury Living Room", category: "Luxury", image: "assets/p1.jpg" },
-    { title: "Modern Shop Interior", category: "Commercial", image: "assets/p2.jpg" },
-    { title: "Budget Friendly Bedroom", category: "Budget", image: "assets/p3.jpg" },
-    { title: "Geometric Ceiling Art", category: "Modern", image: "assets/p4.jpg" },
-    { title: "Royal Suite POP", category: "Luxury", image: "assets/p5.jpg" },
-    { title: "Office Cabin Renovation", category: "Commercial", image: "assets/p6.jpg" }
+    { title: "Modern Shop Interior", category: "Commercial", image: "assets/p2.webp" },
+    { title: "Budget Friendly Bedroom", category: "Budget", image: "assets/p3.webp" },
+    { title: "Geometric Ceiling Art", category: "Modern", image: "assets/p4.webp" },
+    { title: "Royal Suite POP", category: "Luxury", image: "assets/p5.jpeg" },
+    { title: "Office Cabin Renovation", category: "Commercial", image: "assets/p6.webp" }
 ];
 
 function initPortfolio() {
@@ -210,9 +210,7 @@ function filterPortfolio(filter) {
         const div = document.createElement('div');
         div.className = 'portfolio-item';
         div.innerHTML = `
-            <div style="background: #ddd; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #999;">
-                [Project Image]
-            </div>
+            <img src="${item.image}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover;">
             <div class="portfolio-overlay">
                 <h3>${item.title}</h3>
                 <p>${item.category}</p>
