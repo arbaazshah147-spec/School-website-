@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View our portfolio of luxury POP ceiling designs and commercial interior projects across Yavatmal. Get inspired for your next renovation.">
+    <title>Project Portfolio | Faizan P.O.P Interior Masterpieces</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 10px 25px;
+            border: 1px solid var(--primary-color);
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">FAIZAN <span>P.O.P</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="quote.html" class="nav-cta">Get Free Quote</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="section-padding" style="margin-top: 80px;">
+        <div class="container">
+            <div class="section-header">
+                <h1>Our Design Masterpieces</h1>
+                <p>A gallery of excellence across <span class="location-text">Yavatmal</span>.</p>
+            </div>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="Budget">Budget</button>
+                <button class="filter-btn" data-filter="Modern">Modern</button>
+                <button class="filter-btn" data-filter="Luxury">Luxury</button>
+                <button class="filter-btn" data-filter="Commercial">Commercial</button>
+            </div>
+
+            <div class="portfolio-grid" id="portfolio-container">
+                <!-- Portfolio items will be injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2023 <span class="business-name">Faizan P.O.P</span>. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#" class="whatsapp-float whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
