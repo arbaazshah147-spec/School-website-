@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+<section style="background: #111; text-align: center; padding: 4rem 5%;">
+    <h1 class="luxury-font" style="font-size: 3rem; color: var(--primary);">Contact Us</h1>
+    <p>Let's Start Building Your Dream</p>
+</section>
+
+<section class="bg-white">
+    <div style="display: flex; flex-wrap: wrap; gap: 4rem;">
+        <div style="flex: 1; min-width: 300px;">
+            <h2 class="luxury-font" style="margin-bottom: 2rem;">Contact Details</h2>
+            <div style="margin-bottom: 2rem;">
+                <p style="font-weight: bold; font-size: 1.2rem; color: var(--primary);"><i class="fas fa-phone"></i> Call Us</p>
+                <a href="tel:<%= phone %>" style="font-size: 1.1rem; color: var(--secondary);"><%= phone %></a>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <p style="font-weight: bold; font-size: 1.2rem; color: var(--primary);"><i class="fas fa-envelope"></i> Email Us</p>
+                <p style="font-size: 1.1rem; color: var(--secondary);"><%= email %></p>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <p style="font-weight: bold; font-size: 1.2rem; color: var(--primary);"><i class="fas fa-map-marker-alt"></i> Our Office</p>
+                <p style="font-size: 1.1rem; color: var(--secondary);"><%= address %></p>
+            </div>
+
+            <div style="height: 300px; background: #eee; border-radius: 10px; overflow: hidden; margin-top: 2rem;">
+                <!-- Placeholder for Google Map Embed -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119564.33120666!2d78.049442!3d20.38927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd3ef102142f36f%3A0xe54124316d3f3f!2sYavatmal%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1625648552145!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <div style="flex: 1.5; min-width: 300px;">
+            <h2 class="luxury-font" style="margin-bottom: 2rem;">Send a Message</h2>
+            <form action="/inquiry" method="POST" style="background: #f9f9f9; padding: 2rem; border-radius: 10px; border: 1px solid #eee;">
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Full Name</label>
+                    <input type="text" name="name" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phone" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Project Type</label>
+                    <select name="projectType" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                        <option value="New Construction">New Construction</option>
+                        <option value="Interior Design">Interior Design</option>
+                        <option value="Renovation">Renovation</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Budget (Optional)</label>
+                    <input type="text" name="budget" placeholder="e.g. 50 Lakhs" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Your Message</label>
+                    <textarea name="message" rows="5" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

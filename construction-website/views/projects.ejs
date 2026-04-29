@@ -1,0 +1,118 @@
+<%- include('partials/header') %>
+
+<section style="background: #111; text-align: center; padding: 4rem 5%;">
+    <h1 class="luxury-font" style="font-size: 3rem; color: var(--primary);">Our Projects</h1>
+    <p>Showcasing Our Craftsmanship</p>
+</section>
+
+<section class="bg-white">
+    <% if (projects.length === 0) { %>
+        <div style="text-align: center; padding: 3rem;">
+            <h3>No projects showcased yet. Check back soon!</h3>
+        </div>
+    <% } else { %>
+        <div class="grid">
+            <% projects.forEach(project => { %>
+                <div class="card project-item" style="padding: 0; overflow: hidden; background: #fff; cursor: pointer;" onclick="openLightbox('/uploads/<%= project.afterImage %>', '<%= project.title %>', '<%= project.description %>', '<%= project.beforeImage ? '/uploads/' + project.beforeImage : '' %>')">
+                    <div style="position: relative;">
+                        <img src="/uploads/<%= project.afterImage %>" alt="<%= project.title %>" style="width: 100%; height: 300px; object-fit: cover; display: block;">
+                        <div style="padding: 1.5rem;">
+                            <h3 class="luxury-font" style="color: var(--secondary);"><%= project.title %></h3>
+                            <p style="color: #666; font-size: 0.9rem;"><%= project.category %></p>
+                            <div style="margin-top: 1rem; display: flex; align-items: center; color: var(--primary);">
+                                <span style="font-size: 0.8rem; font-weight: bold; text-transform: uppercase;">View Details</span>
+                                <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.7rem;"></i>
+                            </div>
+                        </div>
+                        <% if (project.beforeImage) { %>
+                        <div style="background: var(--primary); color: var(--secondary); padding: 0.3rem 0.8rem; position: absolute; top: 10px; right: 10px; font-weight: bold; border-radius: 5px; font-size: 0.8rem;">
+                            Before/After
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="close-lightbox">&times;</span>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+        <h2 id="lightbox-title" class="luxury-font" style="color: var(--primary); margin-bottom: 1rem;"></h2>
+        <div id="lightbox-images" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+            <div id="before-container" style="flex: 1; min-width: 250px;">
+                <p style="color: #fff; text-align: center; margin-bottom: 5px;">BEFORE</p>
+                <img id="lightbox-img-before" src="" style="width: 100%; border-radius: 5px;">
+            </div>
+            <div id="after-container" style="flex: 1; min-width: 250px;">
+                <p style="color: #fff; text-align: center; margin-bottom: 5px;">AFTER / COMPLETED</p>
+                <img id="lightbox-img-after" src="" style="width: 100%; border-radius: 5px;">
+            </div>
+        </div>
+        <p id="lightbox-desc" style="color: #ccc; margin-top: 1.5rem; text-align: center;"></p>
+    </div>
+</div>
+
+<style>
+    .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.95);
+        overflow: auto;
+        padding-top: 50px;
+    }
+    .lightbox-content {
+        margin: auto;
+        display: block;
+        width: 90%;
+        max-width: 1000px;
+        background: #111;
+        padding: 2rem;
+        border-radius: 10px;
+        border: 1px solid #333;
+    }
+    .close-lightbox {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .project-item:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+</style>
+
+<script>
+    function openLightbox(afterImg, title, desc, beforeImg) {
+        document.getElementById('lightbox').style.display = "block";
+        document.getElementById('lightbox-img-after').src = afterImg;
+        document.getElementById('lightbox-title').innerText = title;
+        document.getElementById('lightbox-desc').innerText = desc;
+
+        const beforeCont = document.getElementById('before-container');
+        if (beforeImg) {
+            beforeCont.style.display = "block";
+            document.getElementById('lightbox-img-before').src = beforeImg;
+        } else {
+            beforeCont.style.display = "none";
+        }
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = "none";
+    }
+</script>
+
+<%- include('partials/footer') %>

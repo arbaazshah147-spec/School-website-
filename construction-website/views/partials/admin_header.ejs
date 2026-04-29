@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - <%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { background: #f4f4f4; color: #333; }
+        .admin-layout { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: #111; color: #fff; padding: 2rem 1rem; }
+        .admin-sidebar h2 { color: #d4af37; margin-bottom: 2rem; font-family: 'Playfair Display', serif; }
+        .admin-sidebar ul { list-style: none; padding: 0; }
+        .admin-sidebar ul li { margin-bottom: 1rem; }
+        .admin-sidebar ul li a { color: #ccc; text-decoration: none; display: block; padding: 0.5rem; border-radius: 5px; }
+        .admin-sidebar ul li a:hover, .admin-sidebar ul li a.active { background: #d4af37; color: #111; }
+        .admin-main { flex: 1; padding: 2rem; }
+        .admin-card { background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .admin-table th, .admin-table td { text-align: left; padding: 1rem; border-bottom: 1px solid #eee; }
+        .admin-table th { background: #f9f9f9; }
+        .btn-gold { background: #d4af37; color: #111; border: none; padding: 0.5rem 1rem; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        .btn-delete { background: #ff4d4d; color: #fff; border: none; padding: 0.5rem 1rem; cursor: pointer; border-radius: 5px; text-decoration: none; font-size: 0.8rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <div class="admin-sidebar">
+            <h2>Admin Panel</h2>
+            <ul>
+                <li><a href="/admin/dashboard">Inquiries</a></li>
+                <li><a href="/admin/projects">Projects</a></li>
+                <li><a href="/admin/reviews">Reviews</a></li>
+                <li><a href="/admin/content">Content</a></li>
+                <li><a href="/admin/logout">Logout</a></li>
+            </ul>
+        </div>
+        <div class="admin-main">
+            <h1><%= title %></h1>

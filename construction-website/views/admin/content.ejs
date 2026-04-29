@@ -1,0 +1,20 @@
+<%- include('../partials/admin_header') %>
+
+<div class="admin-card">
+    <h2>Business & Site Content</h2>
+    <form action="/admin/content/update" method="POST">
+        <% content.forEach(item => { %>
+            <div class="form-group">
+                <label><%= item.key.charAt(0).toUpperCase() + item.key.slice(1).replace(/([A-Z])/g, ' $1') %></label>
+                <% if(item.key.includes('Text')) { %>
+                    <textarea name="<%= item.key %>" rows="4" required><%= item.value %></textarea>
+                <% } else { %>
+                    <input type="text" name="<%= item.key %>" value="<%= item.value %>" required>
+                <% } %>
+            </div>
+        <% }) %>
+        <button type="submit" class="btn-gold">Save Changes</button>
+    </form>
+</div>
+
+<%- include('../partials/admin_footer') %>

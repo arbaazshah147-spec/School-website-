@@ -1,0 +1,38 @@
+    <footer>
+        <div class="grid">
+            <div>
+                <h3 class="luxury-font" style="color: var(--primary); margin-bottom: 1rem;"><%= businessName %></h3>
+                <p>Building Excellence, Crafting Dreams. Your trusted partner in premium construction.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/services">Our Services</a></li>
+                    <li><a href="/projects">Portfolio</a></li>
+                    <li><a href="/contact">Get a Quote</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact Info</h4>
+                <p style="margin-top: 1rem;"><i class="fas fa-phone"></i> <%= phone %></p>
+                <p><i class="fas fa-envelope"></i> <%= email %></p>
+                <p><i class="fas fa-map-marker-alt"></i> <%= address %></p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem; border-top: 1px solid #222; padding-top: 2rem; color: #777;">
+            &copy; <%= new Date().getFullYear() %> <%= businessName %>. All Rights Reserved.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/<%= phone.replace(/\+/g, '') %>?text=Hi, I want to build a house. Can you share details?" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <a href="tel:<%= phone %>" class="call-now-fixed">
+        <i class="fas fa-phone"></i> CALL NOW FOR QUOTE
+    </a>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

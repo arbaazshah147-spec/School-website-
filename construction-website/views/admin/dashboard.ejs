@@ -1,0 +1,48 @@
+<%- include('../partials/admin_header') %>
+
+<div class="admin-card">
+    <h2>Inquiry List</h2>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Project Type</th>
+                <th>Budget</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% inquiries.forEach(inquiry => { %>
+            <tr>
+                <td><%= inquiry.name %></td>
+                <td><%= inquiry.phone %></td>
+                <td><%= inquiry.projectType %></td>
+                <td><%= inquiry.budget %></td>
+                <td style="max-width: 200px;"><%= inquiry.message %></td>
+                <td>
+                    <span style="padding: 0.2rem 0.5rem; border-radius: 3px; background: <%= inquiry.status === 'Pending' ? '#fff3cd' : '#d4edda' %>; color: <%= inquiry.status === 'Pending' ? '#856404' : '#155724' %>">
+                        <%= inquiry.status %>
+                    </span>
+                </td>
+                <td>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <% if(inquiry.status === 'Pending') { %>
+                        <form action="/admin/inquiry/contacted/<%= inquiry._id %>" method="POST">
+                            <button type="submit" class="btn-gold" style="font-size: 0.8rem;">Mark Contacted</button>
+                        </form>
+                        <% } %>
+                        <form action="/admin/inquiry/delete/<%= inquiry._id %>" method="POST" onsubmit="return confirm('Are you sure?')">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/admin_footer') %>

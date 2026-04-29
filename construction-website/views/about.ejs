@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+
+<section style="background: #111; text-align: center; padding: 4rem 5%;">
+    <h1 class="luxury-font" style="font-size: 3rem; color: var(--primary);">About Us</h1>
+    <p>Trusted Name in Premium Construction</p>
+</section>
+
+<section class="bg-white">
+    <div style="max-width: 1000px; margin: 0 auto;">
+        <h2 class="luxury-font" style="margin-bottom: 2rem; color: var(--secondary);">Company Introduction</h2>
+        <p><%= aboutText %></p>
+
+        <div class="grid" style="margin-top: 4rem;">
+            <div class="card" style="background: #f4f4f4; border-color: #ddd; color: #333;">
+                <h3 style="color: var(--primary);">10+ Years</h3>
+                <p>Experience in industry</p>
+            </div>
+            <div class="card" style="background: #f4f4f4; border-color: #ddd; color: #333;">
+                <h3 style="color: var(--primary);">100+ Projects</h3>
+                <p>Completed successfully</p>
+            </div>
+            <div class="card" style="background: #f4f4f4; border-color: #ddd; color: #333;">
+                <h3 style="color: var(--primary);">500+ Clients</h3>
+                <p>Satisfied families</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 5rem;">
+            <h2 class="luxury-font" style="margin-bottom: 2rem; color: var(--secondary);">Why Choose Us?</h2>
+            <div class="grid">
+                <div>
+                    <h4 style="margin-bottom: 1rem;"><i class="fas fa-check-circle" style="color: var(--primary);"></i> Quality Materials</h4>
+                    <p>We use only premium grade materials for long-lasting durability.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1rem;"><i class="fas fa-check-circle" style="color: var(--primary);"></i> On-Time Delivery</h4>
+                    <p>We respect your time and ensure project completion as per schedule.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1rem;"><i class="fas fa-check-circle" style="color: var(--primary);"></i> Skilled Team</h4>
+                    <p>Professional architects, engineers, and craftsmen at your service.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

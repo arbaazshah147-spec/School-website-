@@ -1,0 +1,150 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section style="height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;">
+    <div>
+        <h1 class="luxury-font" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem;"><%= heroTitle %></h1>
+        <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem;">We turn your vision into reality with premium materials and world-class craftsmanship.</p>
+        <div>
+            <a href="/contact" class="btn btn-primary">Get Quote</a>
+            <a href="tel:<%= phone %>" class="btn btn-outline" style="margin-left: 1rem;">Call Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- About Preview -->
+<section class="bg-white">
+    <div style="display: flex; flex-wrap: wrap; align-items: center;">
+        <div style="flex: 1; min-width: 300px; padding: 2rem;">
+            <h2 class="luxury-font" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Expert Builders in Yavatmal</h2>
+            <p><%= aboutText %></p>
+            <div style="margin-top: 2rem;">
+                <a href="/about" class="btn btn-outline">Read More</a>
+            </div>
+        </div>
+        <div style="flex: 1; min-width: 300px; padding: 2rem;">
+            <img src="https://images.unsplash.com/photo-1503387762-592dee58c460?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Construction" style="width: 100%; border-radius: 10px; border: 5px solid var(--primary);">
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Preview -->
+<section>
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 class="luxury-font" style="font-size: 2.5rem; color: var(--primary);">Featured Projects</h2>
+        <p>A glimpse into our world-class constructions.</p>
+    </div>
+    <div class="grid">
+        <% projects.forEach(project => { %>
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <img src="/uploads/<%= project.afterImage %>" alt="<%= project.title %>" style="width: 100%; height: 250px; object-fit: cover;">
+                <div style="padding: 1.5rem;">
+                    <h3><%= project.title %></h3>
+                    <p><%= project.category %></p>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    <div style="text-align: center; margin-top: 3rem;">
+        <a href="/projects" class="btn btn-outline">View All Projects</a>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="bg-white">
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 class="luxury-font" style="font-size: 2.5rem; color: var(--primary);">Our Services</h2>
+        <p>Premium solutions for your premium needs.</p>
+    </div>
+    <div class="grid">
+        <div class="card">
+            <i class="fas fa-home" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+            <h3>House Construction</h3>
+            <p>End-to-end residential construction with quality assurance and on-time delivery.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-couch" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+            <h3>Interior Design</h3>
+            <p>Modern and luxury interiors tailored to your lifestyle and taste.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-tools" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+            <h3>Renovation</h3>
+            <p>Give your old space a fresh, modern, and luxury makeover.</p>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 3rem;">
+        <a href="/services" class="btn btn-outline">View All Services</a>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section>
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 class="luxury-font" style="font-size: 2.5rem; color: var(--primary);">What Our Clients Say</h2>
+        <div style="color: var(--primary); font-size: 1.5rem; margin-top: 1rem;">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <span style="color: #fff; font-size: 1.2rem; margin-left: 0.5rem;">4.8/5 Rating</span>
+        </div>
+    </div>
+    <div class="grid">
+        <% reviews.forEach(review => { %>
+            <div class="card">
+                <div style="color: var(--primary); margin-bottom: 1rem;">
+                    <% for(let i=0; i<review.rating; i++) { %>
+                        <i class="fas fa-star"></i>
+                    <% } %>
+                </div>
+                <p style="font-style: italic; margin-bottom: 1.5rem;">"<%= review.comment %>"</p>
+                <h4 style="color: var(--primary);">- <%= review.name %></h4>
+            </div>
+        <% }) %>
+    </div>
+</section>
+
+<!-- Inquiry Form Section -->
+<section class="bg-white" id="quote">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2 class="luxury-font" style="font-size: 2.5rem;">Get a Free Quote</h2>
+            <p>Send us your requirements and we will contact you shortly.</p>
+        </div>
+        <form action="/inquiry" method="POST" style="background: #f9f9f9; padding: 3rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Your Name</label>
+                    <input type="text" name="name" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phone" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+            </div>
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Project Type</label>
+                    <select name="projectType" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                        <option value="New Construction">New Construction</option>
+                        <option value="Interior Design">Interior Design</option>
+                        <option value="Renovation">Renovation</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Budget (Optional)</label>
+                    <input type="text" name="budget" placeholder="e.g. 50 Lakhs" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label>Message</label>
+                <textarea name="message" rows="4" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Inquiry</button>
+        </form>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

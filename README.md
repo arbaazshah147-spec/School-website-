@@ -1,53 +1,55 @@
-# Jarvis - AI Assistant + Automation Companion
+# Shri Anand Construction Website
 
-## App Overview
-
-Jarvis is a production-safe Android application designed to act as a personal AI assistant and automation companion. It is built with a focus on performance on low-end devices and is developed entirely in Java. The application provides a seamless voice and text-based interface for interacting with various AI models and device features.
+A modern, premium, high-converting website for a construction company.
 
 ## Features
+- **Dark Luxury Theme**: Black, Gold, and White color palette.
+- **Responsive Design**: Mobile-first approach with sticky "Call Now" and floating WhatsApp buttons.
+- **Admin Panel**: Full control over inquiries, projects, and site content.
+- **Lead Generation**: Inquiry forms that save to MongoDB/Mock DB.
+- **Dynamic Content**: Easily update business details and services via the dashboard.
 
-- **Multi-AI Integration**: Jarvis intelligently routes user queries to different AI models (Gemini, ChatGPT, Grok) based on the intent of the query, ensuring the best possible response.
-- **Customizable Identity**: Users can personalize their experience by setting their username, renaming the AI, and defining a custom wake word and welcome message.
-- **Extensible Command System**: A powerful custom command builder allows users to create their own voice commands to open apps, send messages, control media, and more.
-- **Feature-Rich Modules**: The app includes a variety of built-in features, such as a task manager, notes manager, wardrobe assistant, fitness coach, and a floating HUD for easy access.
-- **Voice and Text Interaction**: Jarvis supports both voice and text input, with a custom wake word simulation and human-like Text-to-Speech output in English and Hindi.
-- **Dark Futuristic UI**: The user interface is designed with a dark, futuristic theme that is both aesthetically pleasing and easy on the eyes.
+## Tech Stack
+- **Frontend**: HTML5, CSS3, JavaScript, EJS
+- **Backend**: Node.js, Express
+- **Database**: MongoDB (with local Mock DB support)
+- **Authentication**: Session-based admin login
 
-## API Setup
+## Setup Instructions
 
-To use the AI features of Jarvis, you will need to obtain API keys from the respective providers and add them to the app's settings screen.
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-1.  **Gemini API Key**:
-    - Go to the [Google AI Studio](https://aistudio.google.com/app/apikey) and create an API key.
-    - Open the Jarvis app, navigate to **Settings -> API Management**, and paste the key into the "Gemini API Key" field.
+2. **Environment Configuration**:
+   Create a `.env` file in the root directory (optional, defaults are provided in `server.js`):
+   ```env
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/shri_anand_construction
+   SESSION_SECRET=your_secret_key
+   ADMIN_EMAIL=admin@example.com
+   ADMIN_PASSWORD=admin123
+   USE_MOCK_DB=true # Set to false to use real MongoDB
+   ```
 
-2.  **ChatGPT API Key**:
-    - Go to the [OpenAI Platform](https://platform.openai.com/account/api-keys) and create a new secret key.
-    - In the Jarvis app's settings, paste the key into the "ChatGPT API Key" field.
+3. **Run the Application**:
+   ```bash
+   npm start
+   ```
+   The website will be available at `http://localhost:3000`.
 
-3.  **Grok API Key**:
-    - Access to the Grok API is currently limited. If you have access, you can find your API key in your X.ai developer portal.
-    - Paste the key into the "Grok API Key" field in the app's settings.
+4. **Admin Panel**:
+   - Access at `http://localhost:3000/admin/login`.
+   - Default credentials (if not set in .env):
+     - **Email**: admin@example.com
+     - **Password**: admin123
 
-**Note**: All API keys are stored securely in the app's private SharedPreferences.
-
-## Permissions
-
-Jarvis requires the following permissions to function correctly:
-
--   `INTERNET`: To connect to the AI services.
--   `RECORD_AUDIO`: For voice input.
--   `ACCESS_FINE_LOCATION` / `ACCESS_COARSE_LOCATION`: For location-based predictions and suggestions.
--   `CAMERA`: For the (simulated) camera search feature.
--   `SYSTEM_ALERT_WINDOW`: To display the floating HUD. This permission must be granted manually by the user in the device's settings.
--   `READ_EXTERNAL_STORAGE` / `WRITE_EXTERNAL_STORAGE`: For the downloader and notes features.
--   `FOREGROUND_SERVICE`: To run the floating HUD service.
-
-## Limitations (Non-Root)
-
-As a non-root application, Jarvis has certain limitations:
-
--   **System Actions**: Jarvis cannot perform actions that require root access, such as turning GPS on/off, enabling/disabling mobile data, or force-closing other apps.
--   **Accessibility Services**: Voice commands for "Back", "Home", and "Recents" are simulated. For full functionality, an Accessibility Service would be required, which is a more advanced implementation not included in this version.
--   **Wake Word**: The wake word detection is software-based and relies on the app's microphone being active. It will not work when the app is in the background or the screen is off, unlike hardware-level wake word detection.
--   **App Integration**: Integration with third-party apps (e.g., for ordering) is simulated. Real integration would require official APIs from those services.
+## Project Structure
+- `server.js`: Main entry point and server configuration.
+- `models/`: Database schema and mock data logic.
+- `routes/`: Express routes for frontend and admin panel.
+- `controllers/`: Logic for admin actions.
+- `views/`: EJS templates for all pages.
+- `public/`: Static assets (CSS, JS, Images).
+- `uploads/`: Directory for uploaded project images.
