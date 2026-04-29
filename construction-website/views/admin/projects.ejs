@@ -1,0 +1,57 @@
+<%- include('../partials/admin_header') %>
+
+<div class="admin-card">
+    <h2>Add New Project</h2>
+    <form action="/admin/projects/add" method="POST" enctype="multipart/form-data">
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label>Project Title</label>
+                <input type="text" name="title" required>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category">
+                    <option value="Residential">Residential</option>
+                    <option value="Interior">Interior</option>
+                    <option value="Renovation">Renovation</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="3"></textarea>
+        </div>
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label>Before Image (First Image)</label>
+                <input type="file" name="beforeImage">
+            </div>
+            <div class="form-group">
+                <label>After Image (Second Image)</label>
+                <input type="file" name="afterImage" required>
+            </div>
+        </div>
+        <button type="submit" class="btn-gold">Upload Project</button>
+    </form>
+</div>
+
+<h2 style="margin-bottom: 1rem;">Current Projects</h2>
+<div class="grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
+    <% projects.forEach(project => { %>
+        <div class="admin-card" style="padding: 0; overflow: hidden;">
+            <img src="/uploads/<%= project.afterImage %>" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1rem;">
+                <h4><%= project.title %></h4>
+                <p style="color: #666; font-size: 0.8rem;"><%= project.category %></p>
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <a href="/admin/projects/edit/<%= project._id %>" class="btn-gold" style="flex: 1; text-align: center; text-decoration: none; font-size: 0.8rem;">Edit</a>
+                    <form action="/admin/projects/delete/<%= project._id %>" method="POST" style="flex: 1;" onsubmit="return confirm('Are you sure?')">
+                        <button class="btn-delete" style="width: 100%;">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+<%- include('../partials/admin_footer') %>

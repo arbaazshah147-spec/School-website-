@@ -1,0 +1,56 @@
+<%- include('../partials/admin_header') %>
+
+<div class="admin-card">
+    <h2>Add New Review</h2>
+    <form action="/admin/reviews" method="POST">
+        <div class="form-group">
+            <label>Customer Name</label>
+            <input type="text" name="name" required>
+        </div>
+        <div class="form-group">
+            <label>Rating (1-5)</label>
+            <select name="rating">
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">1 Star</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Comment</label>
+            <textarea name="comment" required rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Add Review</button>
+    </form>
+</div>
+
+<div class="admin-card">
+    <h2>Existing Reviews</h2>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reviews.forEach(review => { %>
+            <tr>
+                <td><%= review.name %></td>
+                <td><%= review.rating %> / 5</td>
+                <td><%= review.comment %></td>
+                <td>
+                                <form action="/admin/reviews/delete/<%= review._id %>" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn-delete" onclick="return confirm('Delete this review?')">Delete</button>
+                                </form>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/admin_footer') %>
