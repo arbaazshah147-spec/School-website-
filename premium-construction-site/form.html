@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inquiry Form | Apex Construction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo business-name">Apex Construction</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="form.html" class="btn btn-primary active" style="padding: 10px 20px;">Get Quote</a></li>
+                </ul>
+                <div class="menu-toggle">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="section" style="background-color: var(--primary-color); color: var(--white); text-align: center; padding: 100px 0;">
+        <div class="container">
+            <h1 style="color: var(--white); font-size: 3rem; margin-bottom: 20px;">Get A Free Quote</h1>
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">Fill out the form below and our team will get back to you with a detailed estimate.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="form-container">
+                <form id="inquiryForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="service">Service Required *</label>
+                        <select id="service" name="service" required>
+                            <option value="">Select a service</option>
+                            <option value="Residential Construction">Residential Construction</option>
+                            <option value="Commercial Project">Commercial Project</option>
+                            <option value="Renovation">Renovation</option>
+                            <option value="Interior Work">Interior Work</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Message / Project Details *</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark" style="width: 100%; font-size: 1.1rem; padding: 15px;">Submit Inquiry</button>
+                </form>
+
+                <div style="margin-top: 30px; text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
+                    <p style="margin-bottom: 15px; color: #666;">Or reach out directly via</p>
+                    <a href="https://wa.me/917823888641" target="_blank" class="btn btn-success" style="background-color: #25D366; color: white; display: inline-flex; align-items: center; gap: 10px;">
+                        <span>💬</span> WhatsApp Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="business-name">Apex Construction</h4>
+                    <p style="color: #888;">Building excellence since 2008. We turn your visions into structural reality with premium materials and craftsmanship.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="projects.html">Gallery</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul class="contact-info">
+                        <li><span class="icon">📍</span> 123 Business Avenue, Mumbai</li>
+                        <li><span class="icon">📞</span> +91 78238 88641</li>
+                        <li><span class="icon">✉️</span> info@apexconstruction.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> <span class="business-name">Apex Construction</span>. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             const waBtn = document.querySelector('.btn-success');
+            if (waBtn) {
+                waBtn.href = `https://wa.me/${CONFIG.whatsapp}`;
+            }
+        });
+    </script>
+</body>
+</html>
