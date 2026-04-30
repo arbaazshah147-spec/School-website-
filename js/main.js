@@ -38,11 +38,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Success Message
-            alert('Thank you! Your inquiry has been submitted successfully. We will contact you soon.');
+            const formContainer = inquiryForm.parentElement;
+            const successDiv = document.createElement('div');
+            successDiv.className = 'form-success';
+            successDiv.innerHTML = `
+                <div style="background: #D4AF37; color: #000; padding: 2rem; border-radius: 8px; text-align: center; margin-bottom: 2rem;">
+                    <h3>Submission Successful!</h3>
+                    <p>Thank you, ${name}. Your inquiry for ${service} has been received.</p>
+                    <p>We are redirecting you to WhatsApp to start a direct conversation...</p>
+                </div>
+            `;
+
+            inquiryForm.style.display = 'none';
+            formContainer.insertBefore(successDiv, inquiryForm);
 
             // WhatsApp Redirect
             const whatsappNumber = CONFIG.whatsapp;
-            const whatsappText = `Hello Apex Construction, I'm interested in ${service}. \nName: ${name} \nPhone: ${phone} \nEmail: ${email} \nMessage: ${message}`;
+            const whatsappText = `Hello Shri Anand Construction, I'm interested in ${service}. \nName: ${name} \nPhone: ${phone} \nEmail: ${email} \nMessage: ${message}`;
             const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
 
             window.open(whatsappURL, '_blank');
