@@ -60,4 +60,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const businessNameElements = document.querySelectorAll('.business-name');
     businessNameElements.forEach(el => el.innerText = CONFIG.businessName);
+
+    // Update Footer Contact Info from Config
+    const configPhoneEls = document.querySelectorAll('.config-phone');
+    configPhoneEls.forEach(el => el.innerText = CONFIG.phone);
+
+    const configEmailEls = document.querySelectorAll('.config-email');
+    configEmailEls.forEach(el => {
+        el.innerText = CONFIG.email;
+        if (el.tagName === 'A') el.href = `mailto:${CONFIG.email}`;
+    });
+
+    const configAddressEls = document.querySelectorAll('.config-address');
+    configAddressEls.forEach(el => el.innerText = CONFIG.address);
 });
